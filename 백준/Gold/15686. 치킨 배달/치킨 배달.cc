@@ -34,7 +34,7 @@ int minn = 987654321;
 
 void bfs()
 {
-	int d[50][50];
+	
 	for (int j = 0; j < h.size(); j++)
 	{
 		
@@ -42,37 +42,14 @@ void bfs()
 	}
 	for (int i = 0; i < chicken.size(); i++)
 	{
-		memset(d, 0, sizeof(d));
+		
 		if (visit[i] == 1)
 		{
-			q.push({ chicken[i].first,chicken[i].second });
-			d[chicken[i].first][chicken[i].second] = 1;
-			while (!q.empty())
-			{
-				int y = q.front().first;
-				int x = q.front().second;
-				q.pop();
-				for (int j = 0; j < 4; j++)
-				{
-					int ny = y + dy[j];
-					int nx = x + dx[j];
-
-					if (ny<0 || nx<0 || ny> N - 1 || nx>N - 1) continue;
-
-					if (d[ny][nx] != 0) continue;
-
-					q.push({ ny,nx });
-					d[ny][nx] = d[y][x] + 1;
-				}
-
-			}
-			
 			for (int j = 0; j < h.size(); j++)
 			{
-				h[j].dist = min(h[j].dist, d[h[j].y][h[j].x]-1);
+				h[j].dist =min(h[j].dist, abs(chicken[i].first - h[j].y) + abs(chicken[i].second - h[j].x));
+
 			}
-
-
 
 		}
 		
