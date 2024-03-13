@@ -3,82 +3,91 @@
 #include <set>
 #include <vector>
 #include <queue>
-#include <map>
-#include <string>
 #include <unordered_map>
 
 using namespace std;
 
-int minheap[100010];
+int heap[100000];
 int hn;
+
+bool cmp(int a,int b)
+{
+	return a <= b; //뒤에께 크면 true
+}
 
 void push(int num)
 {
 	hn++;
-	minheap[hn] = num;
+	heap[hn] = num;
 	int temp;
-	for (register int i = hn; i > 1; i = i / 2)
+	for (int i = hn; i > 1; i = i / 2)
 	{
-		if (minheap[i / 2] >= minheap[i]) break;
+		if (cmp(heap[i], heap[i / 2])) break;
 
-		temp = minheap[i / 2];
-		minheap[i / 2] = minheap[i];
-		minheap[i] = temp;
-
+		temp = heap[i];
+		heap[i] = heap[i / 2];
+		heap[i / 2] = temp;
 	}
+
 
 }
 
-int del(int num)
+int pop()
 {
-	int ret = minheap[1];
-	minheap[1] = minheap[hn];
-	minheap[hn] = -21e7;
-	hn--;
+	int ret = heap[1];
+	heap[1] = heap[hn];
+	heap[hn] = -10000;
+
 	int temp;
-	for (int i = 1; i*2 <= hn;)
+	hn--;
+	for (int i = 1; i * 2 <= hn;)
 	{
-		if (minheap[i] > minheap[i * 2] && minheap[i] > minheap[i * 2 + 1]) break;
-		else if (minheap[i * 2 + 1] < minheap[i * 2])
+		if (!cmp(heap[i], heap[i * 2]) && !cmp(heap[i], heap[i * 2 + 1])) break;
+		else if (cmp(heap[i*2+1], heap[i * 2]))
 		{
-			temp = minheap[i * 2];
-			minheap[i * 2] = minheap[i];
-			minheap[i] = temp;
+			temp= heap[i];
+			heap[i]= heap[i * 2];
+			heap[i * 2]=temp;
 			i = i * 2;
 		}
 		else
 		{
-			temp = minheap[i * 2+1];
-			minheap[i * 2+1] = minheap[i];
-			minheap[i] = temp;
+			temp = heap[i];
+			heap[i] = heap[i * 2+1];
+			heap[i * 2+1] = temp;
 			i = i * 2+1;
 		}
+
+		
 	}
 	
 	return ret;
 
 }
 
+
 int main()
 {
 	int N;
 	cin >> N;
-	int num;
+
 	for (int i = 0; i < N; i++)
 	{
+		int num;
 		scanf("%d", &num);
 		if (num == 0)
 		{
-			if (hn == 0) printf("0\n");
-			else printf("%d\n",del(num));
+			if (hn == 0)
+			{
+				printf("0\n");
+				continue;
+			}
+
+			printf("%d\n",pop());
 		}
 		else
 		{
 			push(num);
 		}
 	}
-	
-
-	
-
 }
