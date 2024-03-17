@@ -37,12 +37,7 @@ int main()
 				if (i > j) break;
 
 				int mid = (i + j) / 2;
-				if (ans[mid] == num)
-				{
-					flag = 1;
-					break;
-				}
-				else if (ans[mid] < num)
+				if (ans[mid] < num)
 				{
 					index = mid;
 					i = mid + 1;
@@ -56,7 +51,7 @@ int main()
 			}
 			if (flag == 0)
 			{
-				ans[index + 1] = num;
+				ans[i] = num;
 			}
 			else
 			{
@@ -64,7 +59,11 @@ int main()
 			}
 
 		}
-		
+		/*for (int i = 0; i < ans.size(); i++)
+		{
+			printf("%d ", ans[i]);
+		}
+		printf("\n");*/
 
 	}
 	printf("%d", ans.size());
