@@ -12,23 +12,62 @@ using namespace std;
 
 int N,M;
 
-priority_queue<int, vector<int>, greater<int>> pq;
+int arr[2][1000000];
 
 int main()
 {
 	scanf("%d %d", &N, &M);
-	for (int i = 0; i < N+M; i++)
+	for (int i = 0; i < N; i++)
 	{
-		int temp;
-		scanf("%d", &temp);
-		pq.push(temp);
+
+		scanf("%d", &arr[0][i]);
 	}
 
-	while (!pq.empty())
+	for (int i = 0; i < M; i++)
 	{
-		printf("%d ", pq.top());
-		pq.pop();
+
+		scanf("%d", &arr[1][i]);
+
 	}
+
+	int i = 0;
+	int j = 0;
+
+	for(int k=0;k<N+M;k++)
+	{
+		
+
+		//printf("%d %d\n\n", i, j);
+		
+		if (i == N)
+		{
+			printf("%d ", arr[1][j]);
+			j++;
+			continue;
+		}
+		else if (j == M)
+		{
+			printf("%d ", arr[0][i]);
+			i++;
+			continue;
+		}
+
+		else if (arr[0][i] >= arr[1][j])
+		{
+			printf("%d ", arr[1][j]);
+			j++;
+			continue;
+		}
+		else
+		{
+			printf("%d ", arr[0][i]);
+			i++;
+			continue;
+		}
+		
+	}
+
+
 
 	
 }
