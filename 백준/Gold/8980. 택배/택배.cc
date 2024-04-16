@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define P printf
+
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -9,6 +10,7 @@
 #include <cstring>
 #include <unordered_map>
 #include <map>
+
 using namespace std;
 
 int N, C;
@@ -29,18 +31,23 @@ int sum;
 
 bool cmp(prob a, prob b)
 {
-	return a.des - a.start < b.des - b.start;
+	if (a.des  == b.des)
+	{
+		return a.start < b.start;
+	}
+
+
+	return a.des  < b.des;
 }
 
 int main()
 {
 	scanf("%d %d", &N, &C);
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= N; i++)
 	{
 		dat[i] = C;
 	}
-
 
 	int good;
 	int answer = 0;
