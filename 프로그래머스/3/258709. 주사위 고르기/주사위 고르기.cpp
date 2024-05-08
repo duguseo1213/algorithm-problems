@@ -34,18 +34,18 @@ void twopoint()
     sort(&B_sum[0],&B_sum[0]+bcnt);
     int i=0;
     int j=0;
-    /*
-    for(int i=0;i<A_sum.size();i++)
+    
+    for(int i=0;i<acnt;i++) //이분탐색
     {
         int left=0;
-        int right=B_sum.size()-1;
+        int right=acnt-1;
         int index=-1;
         while(1)
         {
             if(left>right) break;
             int mid=(left+right)/2;
             
-            if(A_sum[i]>=B_sum[mid])
+            if(A_sum[i]>B_sum[mid])
             {
                 index=mid;
                 left=mid+1;
@@ -64,9 +64,9 @@ void twopoint()
         }
         
     }
-        */
         
-    
+        //투포인터
+    /*
     while(1)
     {     
         if(i>=acnt)
@@ -96,7 +96,7 @@ void twopoint()
             if(i<acnt) cnt=cnt+j;
         }
         //P("%d %d %d\n",A_sum[i],B_sum[j],cnt);
-    }
+    }*/
     
     
    // P("%d\n",cnt);
