@@ -1,41 +1,56 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <set>
+#include <string>
 #include <vector>
+#include <cstring>
 #include <queue>
-#include <unordered_map>
-
+#include <map>
 using namespace std;
+
+int N, M;
 
 int arr[20];
 
+
+
 int main()
 {
-	int N, tar;
+	scanf("%d %d", &N, &M);
 
-	cin >> N >> tar;
 
 	for (int i = 0; i < N; i++)
 	{
 		scanf("%d", &arr[i]);
 	}
-	int cnt = 0;
+	int answer = 0;
 	for (int i = 1; i < (1 << N); i++)
 	{
-		int sum = 0;
-
-		for (int j = 0; j <N; j++)
+		int j = i;
+		int cnt = 0;
+		int ans = 0;
+		while (1)
 		{
-			if (i & (1 << j))
+			if (j == 0) break;
+
+			if (j & 1)
 			{
-				sum = sum + arr[j];
+				ans += arr[cnt];
 			}
+			j=j >> 1;
+			cnt++;
+
+
 		}
 
-		if (tar == sum) cnt++;
+		if (ans == M)
+		{
+			answer++;
+		}
+
 
 
 	}
-	cout << cnt;
+
+	printf("%d", answer);
 
 }
