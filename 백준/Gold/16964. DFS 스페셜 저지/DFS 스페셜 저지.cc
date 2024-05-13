@@ -1,66 +1,43 @@
-
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <queue>
-#include <algorithm>
-
-
-
+#include <cstring>
+#include <unordered_set>
 using namespace std;
-vector<int> graph[100001];
+vector<unordered_set<int>> graph(100001, unordered_set<int>());
 queue<int> q;
-int visit[100001];
 int N;
 
-int state = 0;
-void dfs(int r)
+void dfs(int v)
 {
-	
-	
-	//cout << r << " ";
-	
+	q.pop();
 
-	for (int i = 0; i < graph[r].size(); i++)
+	//cout << v << " ";
+	while (1)
 	{
-		int temp;
-		
 		if (q.size() == 0) return;
-		if (visit[q.front()] == 1) continue;
-
-		if (graph[r].end() != find(graph[r].begin(), graph[r].end(), q.front()))
+		if (graph[v].end() != graph[v].find(q.front()))
 		{
-			
-			
-			temp = q.front();
-
-			q.pop();
-			
-			visit[temp] = 1;
-			dfs(temp);
-			
-
+			dfs(q.front());
 		}
-		else
-		{
-			
+		else {
 			return;
 		}
-
 	}
-
 }
 
 int main()
 {
-	int a, b;
 	cin >> N;
-	for (int i = 0; i < N-1; i++)
+	int a, b;
+	for (int i = 0; i < N - 1; i++)
 	{
 		scanf("%d %d", &a, &b);
-		graph[a].push_back(b);
-		graph[b].push_back(a);
+		graph[a].insert(b);
+		graph[b].insert(a);
 	}
 
 	for (int i = 0; i < N; i++)
@@ -68,10 +45,8 @@ int main()
 		scanf("%d", &a);
 		q.push(a);
 	}
-	visit[1] = 1;
-	q.pop();
 	dfs(1);
-	//cout << endl;
-	if (q.size()>0) cout << 0;
+	if (q.size() > 0) cout << 0;
 	else cout << 1;
+
 }
