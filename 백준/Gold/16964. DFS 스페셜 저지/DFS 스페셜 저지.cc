@@ -7,7 +7,7 @@
 #include <cstring>
 #include <unordered_set>
 using namespace std;
-vector<unordered_set<int>> graph(100001, unordered_set<int>());
+unordered_set<int> graph[100001];
 queue<int> q;
 int N;
 
@@ -36,6 +36,9 @@ int main()
 	for (int i = 0; i < N - 1; i++)
 	{
 		scanf("%d %d", &a, &b);
+
+		//graph.push_back(unordered_set<int>());
+
 		graph[a].insert(b);
 		graph[b].insert(a);
 	}
