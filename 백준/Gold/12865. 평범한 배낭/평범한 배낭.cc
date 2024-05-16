@@ -1,47 +1,58 @@
 #define _CRT_SECURE_NO_WARNINGS
+#define P printf
 
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <queue>
+#include <cmath>
+#include <string>
+
 using namespace std;
 
-int dp[100][100001];
+int N, K;
 
-pair<int, int> thing[100]; //weight value
+int arr[100][100010];
 
-int main()
+int value[100];
+int weight[100];
+
+int main() 
 {
-	int N, K;
 	scanf("%d %d", &N, &K);
 
 	for (int i = 0; i < N; i++)
 	{
-		int a, b;
-		scanf("%d %d", &thing[i].first, &thing[i].second);
+		scanf("%d %d",&weight[i], &value[i]);
 	}
 
-	for (int i = 1; i <= K; i++)
+	for (int i = 0; i <= K; i++)
 	{
-		if (thing[0].first > i)
+		if (weight[0] > i)
 		{
-			dp[0][i] = 0;
+			arr[0][i] = 0;
 		}
 		else
 		{
-			dp[0][i] = thing[0].second;
+			arr[0][i] = value[0];
 		}
+		//P("%d ", arr[0][i]);
 	}
 
-	for (int i = 1; i <= K; i++)
+	for (int i = 1; i < N; i++)
 	{
-		for (int j = 1; j < N; j++)
+		for (int j = 0; j <= K; j++)
 		{
-			int temp = 0;
-			if (thing[j].first <= i)
+			int temp;
+			if (weight[i] <= j)
 			{
-				temp = thing[j].second + dp[j-1][(i - thing[j].first)];
+				arr[i][j] = max(arr[i - 1][j], value[i]+arr[i - 1][j - weight[i]]);
 			}
-			dp[j][i] = max(dp[j-1][i], temp);
+			else
+			{
+				arr[i][j] = arr[i - 1][j];
+			}
+
+
 		}
 	}
 	/*
@@ -49,11 +60,11 @@ int main()
 	{
 		for (int j = 0; j <= K; j++)
 		{
-			printf("%d ", dp[i][j]);
-		}
-		printf("\n");
-	}*/
-	
-	printf("%d", dp[N - 1][K]);
+			P("%d ", arr[i][j]);
 
+		}
+		P("\n");
+	}*/
+
+	P("%d", arr[N-1][K]);
 }
