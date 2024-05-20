@@ -1,72 +1,80 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
-#include <algorithm>
-#include <queue>
-#include <vector>
 
+#define _CRT_SECURE_NO_WARNINGS
+#define P printf
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <vector>
+#include <queue>
+#include <cstring>
+#include <unordered_set>
+#include <cmath>
 using namespace std;
 
-vector<int> ans;
+vector<int> vec;
+
+int arr[1000001];
 
 int N;
+
 int main()
 {
 	scanf("%d", &N);
-	int num;
-	scanf("%d", &num);
 
-	ans.push_back(num);
-
-	for (int k = 1; k < N; k++)
+	for (int i = 0; i < N; i++)
 	{
-		scanf("%d", &num);
+		scanf("%d", &arr[i]);
+	}
 
-		if (num > ans.back())
+	vec.push_back(arr[0]);
+
+	for (int i = 1; i < N; i++)
+	{
+		if (arr[i] > vec[vec.size() - 1])
 		{
-			ans.push_back(num);
+			vec.push_back(arr[i]);
 		}
 		else
 		{
-
-			int i = 0;
-			int j = ans.size() - 1;
-			int index=-1;
-			int flag = 0;
+			int left = 0;
+			int right = vec.size() - 1;
+			int answer=0;
 			while (1)
 			{
-				if (i > j) break;
-
-				int mid = (i + j) / 2;
-				if (ans[mid] < num)
+				if (left > right)
 				{
-					index = mid;
-					i = mid + 1;
-					
-				}		
-				else
-				{
-					j = mid - 1;
+					break;
 				}
 
-			}
-			if (flag == 0)
-			{
-				ans[i] = num;
-			}
-			else
-			{
+				int mid = (left + right) / 2;
 
+				if (vec[mid]<arr[i])
+				{
+					
+					left = mid + 1;
+				}
+				else
+				{
+					answer = mid;
+					right = mid - 1;
+				}
+
+
+				
 			}
+
+			vec[answer] = arr[i];
 
 		}
-		/*for (int i = 0; i < ans.size(); i++)
-		{
-			printf("%d ", ans[i]);
-		}
-		printf("\n");*/
-
+		
 	}
-	printf("%d", ans.size());
 
+	for (int i = 0; i < vec.size(); i++)
+	{
+		//printf("%d ", vec[i]);
+	}
+	//printf("\n");
+	printf("%d", vec.size());
 
 }
