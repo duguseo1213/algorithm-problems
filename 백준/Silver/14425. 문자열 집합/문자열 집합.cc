@@ -1,96 +1,40 @@
+#define P printf
 #define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
-#include <set>
-#include <vector>
-#include <queue>
-#include <map>
+
+
+
 #include <string>
-#include <unordered_map>
+#include <iostream>
+#include <unordered_set>
 
 using namespace std;
 
-
-struct NODE {
-	int yes;
-	unordered_map<char, NODE*> m;
-};
-
-NODE HEAD;
-
-NODE DATAS[10000];
+unordered_set<string> s;
 
 int N, M;
-int state = 0;
-string str_input;
-void dfs(NODE* cur,int dep)
-{
-	if (dep == str_input.size() && cur->yes==1)
-	{
 
-		state = 1;
-		return;
-	}
-	
-	if (cur->m.find(str_input[dep]) != cur->m.end())
-	{
-		cur = cur->m[str_input[dep]];
-		dfs(cur, dep + 1);
-	}
-	else
-	{
-		return;
-	}
-
-}
-
-
-int main()
-{
-
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
-
+int main() {
 	cin >> N >> M;
-	
-	int dcnt = 0;
-	for (int i = 0; i < N; i++)
-	{
-		cin >> str_input;
-		NODE* cur = &HEAD;
+	for (int i = 0; i < N; i++) {
+		string temp;
 
-		for (int j = 0; j < str_input.size(); j++)
-		{
-			
-			if (cur->m.find(str_input[j]) == cur->m.end())
-			{
-				
-				NODE *newnode = new NODE;
-				dcnt++;
-				cur->m[str_input[j]] = newnode;
-			}
+		cin >> temp;
+		s.insert(temp);
 
-			cur = cur->m[str_input[j]];
-
-		}
-		cur->yes = 1;
 
 	}
-
 	int cnt = 0;
-	for (int i = 0; i < M; i++)
-	{
-		state = 0;
-		cin >> str_input;
-		dfs(&HEAD,  0);
-		if (state == 1)
-		{
+	for (int i = 0; i < M; i++) {
+		string temp;
+
+		cin >> temp;
+
+		if (s.find(temp) != s.end()) {
 			cnt++;
-			
 		}
+
+
 	}
+
 	cout << cnt;
-	
-
-	
-
 }
