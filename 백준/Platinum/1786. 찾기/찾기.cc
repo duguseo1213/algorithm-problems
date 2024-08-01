@@ -2,72 +2,52 @@
 #define P 
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <vector>
+#include <queue>
+#include <cstring>
+#include <unordered_set>
 using namespace std;
 
-int fail[1000001];
 string a, b;
-int cnt = 0;
 
-int alen, blen;
+int fail[1000000];
 vector<int> answer;
+int cnt;
 void find_fail()
 {
 	fail[0] = -1;
-
-
-
-	for (int i = 1; i < blen; i++)
-	{
+	for (int i = 1; i < b.size(); i++){
 		int j = fail[i - 1];
-
 		while (1)
 		{
-			if (j == -1)
-			{
+			if (j == -1){
 				break;
 			}
-
-
-			if (b[j+1]==b[i])
-			{
+			if (b[i] == b[j + 1]){
 				break;
 			}
-
 			j = fail[j];
-
 		}
-
-		if (b[j + 1] == b[i])
-		{
-			fail[i] = j+1;
+		if (b[j + 1] == b[i]){
+			fail[i] = j + 1;
 		}
-		else
-		{
+		else{
 			fail[i] = -1;
 		}
-
-
-
 	}
-	for (int i = 0; i < b.length(); i++)
-	{
-		P("%d ", fail[i]);
-	}
-	P("\n");
-
 }
+
 
 void kmp()
 {
 	int i = 0;
 	int j = 0;
-
-	while (i < alen)
+	while (i < a.size())
 	{
-		while (j < blen && i< alen)
-		{
 
+		while (j < b.size() && i < a.size())
+		{
 			if (a[i] == b[j])
 			{
 				i++;
@@ -80,54 +60,34 @@ void kmp()
 			else
 			{
 				j = fail[j - 1] + 1;
-
 			}
-
 		}
-		//if (i >= alen) break;
-
-
-		if (j == blen)
+		if (j == b.size())
 		{
 			cnt++;
-
-			answer.push_back(i - blen + 1);
+			answer.push_back(i - b.size() + 1);
 			j = fail[j - 1] + 1;
-			
-			
-
 		}
-		
-
-
 	}
-
-
 }
-
-
 
 int main()
 {
 	ios_base::sync_with_stdio(false);
 	cin.tie(0);
 
-	getline(cin,a);
-	
+	getline(cin, a);
 	getline(cin, b);
-	alen = a.length();
-	blen = b.length();
-	
 	find_fail();
 
 	kmp();
-	
 
-	cout << cnt<<"\n";
+
+	cout << cnt << "\n";
 
 	for (int i = 0; i < answer.size(); i++)
 	{
 		cout << answer[i] << " ";
 	}
-	
+
 }
