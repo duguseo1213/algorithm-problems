@@ -37,6 +37,29 @@ void update(int left, int right, int index, int node, int value) {
 
 }
 
+int good;
+void finds(int left, int right, int value, int node) {
+
+	if (left == right) {
+
+		good = right;
+		return;
+	}
+
+	
+
+	int mid = (left + right) / 2;
+	//printf("%d ", tree[node]);
+	if (tree[node*2] > value) {
+		finds(left, mid, value, node * 2);
+	}
+	else {
+		finds(mid+1, right, value-tree[node*2], node * 2 + 1);
+	}
+
+
+}
+
 int query(int left, int right, int L, int R, int node) {
 
 	if (left > R || right < L) {
@@ -57,38 +80,22 @@ int query(int left, int right, int L, int R, int node) {
 int main() {
 	scanf("%d", &N);
 	
+	for (int i = 1; i <= N; i++) {
+
+		update(1, N, i, 1, 1);
+	}
+
+
 	for (int i = 1; i < N; i++) {
 		int temp;
 		scanf("%d", &temp);
 
-		int l = 1;
-		int r = N;
+		finds(1, N, temp, 1);
 
-		while (1) {
+		//printf("i: %d good:%d temp:%d\n", i, good, temp);
 
-			if (l > r) break;
-
-			int mid = (l + r) / 2;
-
-			int t = query(1, N, 1, mid-1, 1);
-
-			if (mid -t-1 == temp && answer[mid]==0) {
-
-				//printf("i:%d t: %d mid: %d\n",i, t,mid);
-				update(1, N, mid, 1, 1);
-				answer[mid] = i;
-				break;
-			}
-			else if ( mid -t-1  > temp) {
-				r = mid - 1;
-				
-			}
-			else {
-				l = mid + 1;
-			}
-
-		}
-
+		update(1, N, good, 1, 0);
+		answer[good] = i;
 
 
 
