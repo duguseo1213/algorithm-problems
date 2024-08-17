@@ -1,32 +1,30 @@
 #include <iostream>
-#include <cstring>//memset
-#include <string>
 #include <vector>
-
+#include <string>
 using namespace std;
 
+int fail[1000001];
 string a, b;
 vector<int> answer;
-int fail[1000001];
-
 int cnt;
-
 void find_fail() {
 
 	fail[0] = -1;
 
 	for (int i = 1; i < b.size(); i++) {
 
-		int j = fail[i-1];
+		int j = fail[i - 1];
 
 		while (1) {
 
 			if (j == -1) {
 				break;
 			}
+
 			if (b[i] == b[j + 1]) {
 				break;
 			}
+
 			j = fail[j];
 
 		}
@@ -38,8 +36,9 @@ void find_fail() {
 			fail[i] = -1;
 		}
 
-
 	}
+
+
 
 }
 
@@ -57,7 +56,6 @@ void kmp() {
 				j++;
 			}
 			else if (j == 0) {
-
 				i++;
 			}
 			else {
@@ -67,17 +65,13 @@ void kmp() {
 			}
 
 		}
-
 		if (j == b.size()) {
 			j = fail[j - 1] + 1;
+			answer.push_back(i - b.size() + 1);
 			cnt++;
-			answer.push_back(i-b.size()+1);
-
 		}
 
-
 	}
-
 
 
 }
