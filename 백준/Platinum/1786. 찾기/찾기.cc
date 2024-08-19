@@ -1,6 +1,7 @@
-#include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
+#include <iostream>
+
 using namespace std;
 
 int fail[1000001];
@@ -8,7 +9,7 @@ string a, b;
 vector<int> answer;
 int cnt;
 void find_fail() {
-
+	
 	fail[0] = -1;
 
 	for (int i = 1; i < b.size(); i++) {
@@ -30,22 +31,19 @@ void find_fail() {
 		}
 
 		if (b[i] == b[j + 1]) {
-			fail[i] = j + 1;
+			fail[i] = j+1;
 		}
 		else {
 			fail[i] = -1;
 		}
-
 	}
-
-
 
 }
 
 void kmp() {
 
-	int i = 0;
 	int j = 0;
+	int i = 0;
 
 	while (i < a.size()) {
 
@@ -59,17 +57,16 @@ void kmp() {
 				i++;
 			}
 			else {
-
 				j = fail[j - 1] + 1;
-
 			}
-
 		}
+
 		if (j == b.size()) {
+			answer.push_back(i-b.size()+1);
 			j = fail[j - 1] + 1;
-			answer.push_back(i - b.size() + 1);
 			cnt++;
 		}
+
 
 	}
 
