@@ -1,70 +1,53 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include<iostream>
-#include<vector>
-#include <algorithm>
+
+#include <iostream>
+#include <vector>
+#include <string>
 using namespace std;
-vector<int> arr;
 
-int inorder[100000];
-int postorder[100000];
+int N;
 
-int tree[100000][2];
+vector<int> inorder;
+vector<int> postorder;
 
 
-void maketree(int start,int end,int pe)
-{
-    if (start > end)
-    {
-	    return;
-    }
-	if (start == end)
-	{
-		printf("%d ",inorder[end]);
+int dat[100010];
+
+void dfs(int ileft,int iright,int pleft,int pright) {
+
+	if (iright <= ileft) {
 		return;
 	}
-	int root = postorder[end-pe];
 
-	printf("%d ",root);
+	printf("%d ", postorder[pright - 1]);
 
-
-	int inorder_root;
-
-	for (int i = start; i <= end; i++)
-	{
-		if (inorder[i] == root)
-		{
-			inorder_root = i;
-			maketree(start, inorder_root-1,pe);
-			maketree(inorder_root+1,end,pe+1);
+	
 
 
-		}
-	}
+	int temp = dat[postorder[pright - 1]];
 
+	dfs(ileft,temp,pleft,pleft+temp-ileft); //왼쪽
 
-
+	dfs(temp+1,iright,pleft+temp-ileft,pright-1); //오른쪽
 
 }
 
+int main() {
+	scanf("%d", &N);
+	int temp;
+	for (int i = 0; i < N; i++) {
+		scanf("%d", &temp);
+		inorder.push_back(temp);
 
-int main()
-{
-	int N;
-	cin >> N;
-
-	for (int i = 0; i < N; i++)
-	{
-		scanf("%d", &inorder[i]);
+		dat[temp] = inorder.size() - 1;
+		//printf("%d %d\n", temp, inorder.size() - 1);
 	}
 
-	for (int i = 0; i < N; i++)
-	{
-		scanf("%d", &postorder[i]);
+	for (int i = 0; i < N; i++) {
+		scanf("%d", &temp);
+		postorder.push_back(temp);
 	}
 
-	maketree(0,N-1,0);
-
-
-
+	dfs(0, inorder.size(), 0, inorder.size());
 
 }
