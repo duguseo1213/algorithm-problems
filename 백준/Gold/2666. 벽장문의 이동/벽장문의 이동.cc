@@ -3,6 +3,7 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <cstring>
 using namespace std;
 
 int N;
@@ -13,19 +14,30 @@ int cnt;
 int order[21];
 int answer=21e8;
 
-void dfs(int left,int right,int depth,int mcnt) {
+int dp[21][21][21];
+
+
+int dfs(int left,int right,int depth) {
 
 	if (depth == cnt) {
-		answer = min(answer, mcnt);
-		return;
+
+		return 0;
 	}
 
+	if (dp[depth][left][right] == -1) {
+		dp[depth][left][right] = min(abs(left - order[depth]) + dfs(order[depth], right, depth + 1), abs(right - order[depth]) + dfs(left, order[depth], depth + 1));
 
+
+		return dp[depth][left][right];
+	}
+	else {
+		return dp[depth][left][right];
+	}
 	
-
-	dfs(order[depth], right, depth + 1, mcnt + abs(order[depth] - left));
-
-	dfs(left, order[depth], depth + 1, mcnt + abs(order[depth] - right));
+	
+	
+	
+	
 
 	
 
@@ -36,6 +48,8 @@ void dfs(int left,int right,int depth,int mcnt) {
 
 int main()
 {
+	memset(dp, -1, sizeof(dp));
+
 	scanf("%d", &N);
 
 	scanf("%d %d", &l, &r);
@@ -46,8 +60,8 @@ int main()
 		scanf("%d", &order[i]);
 	}
 
-	dfs(l, r, 0, 0);
+	
 
-	printf("%d", answer);
+	printf("%d", dfs(l, r, 0));
    
 }
