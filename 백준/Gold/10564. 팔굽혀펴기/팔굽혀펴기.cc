@@ -47,7 +47,7 @@ int main()
 
 		for (int i = 0; i <= 5000; i++) {
 
-			for (int k = 0; k <= 1000;k++) {
+			for (int k = 0; k <= 500;k++) {
 
 				for (int j = 0; j < M; j++) {
 
