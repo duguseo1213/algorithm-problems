@@ -49,15 +49,18 @@ int main()
 
 			for (int k = 0; k <= 500;k++) {
 
-				for (int j = 0; j < M; j++) {
+				if (dp[i][k] == 1) {
 
-					if (i + k + arr[j] > N) continue;
+					for (int j = 0; j < M; j++) {
+
+						if (i + k + arr[j] > N) continue;
 
 
-					if (dp[i][k] == 1) {
+
 						dp[i + k + arr[j]][k + arr[j]] = 1;
 
 						ddp[i + k + arr[j]] = max(ddp[i + k + arr[j]], k + arr[j]);
+
 
 					}
 				}
