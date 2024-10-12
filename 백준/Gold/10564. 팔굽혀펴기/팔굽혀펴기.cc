@@ -5,15 +5,17 @@
 #include <algorithm>
 #include <cstring>
 #include <set>
+#include <queue>
 using namespace std;
 
 int T, N, M;
 
 
-int dp[5001][5001];
+bool dp[5101][5101];
 
-int ddp[5001];
+int ddp[5101];
 
+queue<pair<int, int>> q;
 
 int arr[11];
 
@@ -28,7 +30,11 @@ int main()
 
 		int NN = N;
 
-		memset(dp, -1, sizeof(dp));
+		for (int i = 0; i <= N; i++) {
+			for (int j = 0; j <= N; j++) {
+				dp[i][j] = 0;
+			}
+		}
 
 		for (int i = 0; i <= 5000; i++) {
 			
@@ -38,36 +44,48 @@ int main()
 		for (int i = 0; i < M; i++) {
 			scanf("%d", &arr[i]);
 
+			q.push({ arr[i],arr[i] });
+
 			dp[arr[i]][arr[i]] = 1;
 			ddp[arr[i]] = arr[i];
 
 		}
 
-		//if (N >= 5000) N = 5000;
+		while (!q.empty()) {
 
-		for (int i = 0; i <= 5000; i++) {
+			pair<int, int> p = q.front();
+			q.pop();
 
-			for (int k = 0; k <= 500;k++) {
-
-				if (dp[i][k] == 1) {
-
-					for (int j = 0; j < M; j++) {
-
-						if (i + k + arr[j] > N) continue;
-
-
-
-						dp[i + k + arr[j]][k + arr[j]] = 1;
-
-						ddp[i + k + arr[j]] = max(ddp[i + k + arr[j]], k + arr[j]);
-
-
-					}
-				}
+			if (p.first == N) {
+				ddp[p.first] = max(ddp[p.first], p.second);
 			}
 
+			
+			
+
+			for (int i = 0; i < M; i++) {
+				if (p.first + p.second + arr[i] > N) continue;
+				if (dp[p.first + p.second + arr[i]][p.second + arr[i]] == 1) continue;
+
+				
+				
+
+				
+
+				
+
+				dp[p.first + p.second + arr[i]][p.second + arr[i]] = 1;
+
+				q.push({ p.first + p.second + arr[i],p.second + arr[i] });
+
+
+			}
+
+
 		}
+		
 		printf("%d\n", ddp[N]);
+		
 
 		
 
