@@ -7,7 +7,7 @@ long long dp[50];
 void solve(int n) {
     int a, b;
     a = n - 1, b = n - 2;
-    if (dp[a] == 0 || dp[b] == 0) solve(n - 1);
+    if (dp[n]==0) solve(n - 1);
 
     dp[n] = dp[a] + dp[b];
 }
