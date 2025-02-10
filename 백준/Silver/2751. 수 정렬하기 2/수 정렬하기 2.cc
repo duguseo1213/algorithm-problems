@@ -1,36 +1,67 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
-#include <algorithm>
-#include <queue>
-#include <vector>
+#include <stdio.h>
 
-using namespace std;
+int b[1000000];
 
-bool cmp(int a,int b)
-{
-	return a < b;
+int a[1000000];
+
+int N;
+
+void merge(int start,int end) {
+
+	int mid, i, j, k;
+
+	mid = (start + end) / 2;
+
+	i = start;
+	j = mid + 1;
+	k = 0;
+
+	while (i <= mid && j <= end) {
+
+		if (a[i] <= a[j]) b[k++] = a[i++];
+		else b[k++] = a[j++];
+	}
+
+	while(i<=mid)  b[k++] = a[i++];
+	while (j <= end)  b[k++] = a[j++];
+
+	for (i = start; i <= end; i++) {
+		a[i] = b[i - start];
+	}
+
+
 }
 
-vector<int> a;
-int N;
-int main()
-{
+
+void sort(int start,int end) {
+
+	if (start >= end) return;
+
+	int mid = (start + end) >> 1;
+
+	sort(start, mid);
+	sort(mid + 1, end);
+	merge(start, end);
+
+
+}
+
+
+int main() {
+
 	scanf("%d", &N);
 
-	for (int i = 0; i < N; i++)
-	{
-		int temp;
-		scanf("%d", &temp);
-		a.push_back(temp);
+	for (int i = 0; i < N; i++) {
+		scanf("%d", &a[i]);
 	}
 
-	sort(a.begin(), a.end(),cmp);
+	sort(0, N-1);
 
-	for (int i = 0; i < N; i++)
-	{
+	for (int i = 0; i < N; i++) {
 		printf("%d\n", a[i]);
 	}
-
-
+	
+	
 
 }
