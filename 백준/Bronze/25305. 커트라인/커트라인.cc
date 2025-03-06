@@ -18,7 +18,7 @@ void merge(int start, int end) {
 
 	i = start;
 	j = mid + 1;
-	k = 0;
+	k = start;
 
 	while (i <= mid && j <= end) {
 
@@ -37,7 +37,7 @@ void merge(int start, int end) {
 	}
 
 	for (int i = start; i <= end; i++) {
-		a[i] = b[i - start];
+		a[i] = b[i];
 	}
 
 
