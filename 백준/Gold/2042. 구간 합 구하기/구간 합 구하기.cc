@@ -41,23 +41,25 @@ long long getsum(int left, int right, int a, int b, int node)
 
 void update(int left, int right, long long diff, int node,int index)
 {
+	if (index<left || index>right) return;
+	if (left == right)
+	{
+		tree[node] += diff;
+		return;
+	}
+
+
 	
 
-
-	if (index<left || index>right) return;
 
 	tree[node] += diff;
-	if (left != right)
-	{
+	int mid = (left + right) / 2;
 
+	update(left, mid, diff, node * 2, index);
 
-		int mid = (left + right) / 2;
+	update(mid + 1, right, diff, node * 2 + 1, index);
 
-		update(left, mid, diff, node * 2, index);
-
-		update(mid + 1, right, diff, node * 2 + 1, index);
-	}
-	
+	return;
 
 
 }
