@@ -1,102 +1,80 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
+#define P printf
 #include <set>
-#include <vector>
-#include <queue>
-#include <unordered_map>
-#include <map>
-
+#include <iostream>
 using namespace std;
 
-long long arr[1000001];
-long long tree[4000400];
+int N, M, K;
 
-long long init(int left,int right,int node)
-{
+long long tree[4000000];
+
+void update(int left, int right, int index, int node, long long value) {
+
+	if (left > index || right < index) {
+
+		return;
+	}
 
 	if (left == right) {
-		tree[node] = arr[left];
+		tree[node] = value;
+		return;
+	}
+
+	int mid = (left + right) / 2;
+
+	update(left, mid, index, node * 2, value);
+	update(mid + 1, right, index, node * 2 + 1, value);
+
+	tree[node] = tree[node * 2] + tree[node * 2 + 1];
+
+
+}
+
+long long query(int left, int right, int L, int R, int node) {
+
+	if (left > R || right < L) {
+		return 0;
+	}
+
+	if (L <= left && right <= R) {
 		return tree[node];
 	}
 
 	int mid = (left + right) / 2;
 
-	tree[node] = init(left, mid, node * 2) + init(mid + 1, right, node * 2 + 1);
-	
-	return tree[node];
+	return query(left, mid, L, R, node * 2) + query(mid + 1, right, L, R, node * 2 + 1);
 
-}
-
-long long getsum(int left, int right, int a, int b, int node)
-{
-	if (left > b || right < a) return 0;
-
-	if (left >= a && right <= b) return tree[node];
-
-	int mid = (left + right) / 2;
-
-	return getsum(left, mid, a, b, node * 2) + getsum(mid + 1, right, a, b, node * 2 + 1);
-
-}
-
-void update(int left, int right, long long diff, int node,int index)
-{
-	if (index<left || index>right) return;
-	if (left == right)
-	{
-		tree[node] += diff;
-		return;
-	}
-
-
-	
-
-
-	tree[node] += diff;
-	int mid = (left + right) / 2;
-
-	update(left, mid, diff, node * 2, index);
-
-	update(mid + 1, right, diff, node * 2 + 1, index);
-
-	return;
 
 
 }
 
-int N, M, K;
 
-int main()
-{
+int main() {
+
 	scanf("%d %d %d", &N, &M, &K);
 
-	for (int i = 1; i <= N; i++)
-	{
-		scanf("%lld", &arr[i]);
+	for (int i = 1; i <= N; i++) {
+		long long temp;
+		scanf("%lld", &temp);
+		update(1, N, i, 1, temp);
+	}
+	
+	for (int i = 0; i < M + K; i++) {
+
+		long long a, b, c;
+		scanf("%lld %lld %lld", &a, &b, &c);
+
+		if (a == 1) {
+
+			update(1, N, b, 1, c);
+		}
+		else {
+			printf("%lld\n", query(1, N, b, c, 1));
+		}
+
 
 	}
 
-	init(1, N, 1);
-
-	for (int i = 0; i < M+K; i++)
-	{
-		int state;
-		int b;
-		long long c;
-		scanf("%d", &state);
-		scanf("%d %lld", &b, &c);
-		if (state == 1)
-		{
-			
-			update(1, N, c - arr[b],1,b);
-			arr[b] = c;
-
-		}
-		else
-		{
-			printf("%lld\n", getsum(1, N, b, c, 1));
-		}
-	}
 
 
 }
