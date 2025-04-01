@@ -3,6 +3,7 @@
 #include <set>
 #include <iostream>
 #include <string>
+#include <cstring>
 
 using namespace std;
 
@@ -10,7 +11,14 @@ int N;
 
 int arr[20][20];
 
+int dp[20][20][3];
+
 int dfs(int y,int x,int state) {
+
+	if (dp[y][x][state] != -1) {
+		return dp[y][x][state];
+	}
+
 
 	if (y == N - 1 && x == N - 1) {
 		return 1;
@@ -33,10 +41,9 @@ int dfs(int y,int x,int state) {
 			sum += dfs(y + 1, x + 1, 2);
 		}
 	}
-	
+	dp[y][x][state] = sum;
+
 	return sum;
-
-
 }
 
 
@@ -49,6 +56,10 @@ int main() {
 			scanf("%d", &arr[i][j]);
 		}
 	}
+
+	memset(dp, -1, sizeof(dp));
+
+	
 
 	cout<<dfs(0, 1, 0);
 
