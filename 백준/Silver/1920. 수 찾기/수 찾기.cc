@@ -3,12 +3,12 @@
 #include <queue>
 #include <vector>
 #include <cstring>
-#define MAX_TABLE 100019
+#define MAX_TABLE 100003
 
 struct NODE {
 
-	int key;
-	int value;
+	long long key;
+	long long value;
 	NODE* next;
 
 };
@@ -20,7 +20,7 @@ int pcnt;
 
 int N, M;
 
-int hashfunc(int value) {
+long long hashfunc(long long value) {
 	
 	return value % MAX_TABLE;
 
@@ -33,12 +33,12 @@ int main(void)
 	scanf("%d", &N);
 
 	for (int i = 0; i < N; i++) {
-		int temp;
+		long long temp;
 		NODE* nd = &pool[pcnt];
 		pcnt++;
 
 		scanf("%d", &temp);
-		int h;
+		long long h;
 		if (temp < 0) {
 			h = hashfunc(-temp);
 		}
@@ -55,9 +55,9 @@ int main(void)
 	scanf("%d", &M);
 
 	for (int i = 0; i < M; i++) {
-		int temp;
+		long long temp;
 		scanf("%d", &temp);
-		int h;
+		long long h;
 
 		if (temp < 0) {
 			h = hashfunc(-temp);
