@@ -1,78 +1,92 @@
 #define _CRT_SECURE_NO_WARNINGS
-
-#include <iostream>
-#include <vector>
+#include <stdio.h>
 #include <queue>
-#include <string>
+#include <vector>
 #include <cstring>
-#include <cstdlib>
-#include <algorithm>
-#include <cmath>
-#define INF 987654321
+#define MAX_TABLE 100019
 
-using namespace std;
+struct NODE {
 
-int A[100000];
+	int key;
+	int value;
+	NODE* next;
 
-int B[100000];
+};
 
-int target;
-int state = 0;
-void func(int left, int right)
-{
-	//cout << left << " " << right << endl;
-	if (right < left)
-	{
-		return;
-	}
+NODE pool[200001];
+NODE HEAD[MAX_TABLE];
 
-	int mid = (left + right) / 2;
+int pcnt;
 
-	if (target == A[mid])
-	{
-		state = 1;
-		printf("1\n");
-		return;
-	}
+int N, M;
 
-	else if (A[mid] > target)
-	{
-		func(left, mid-1);
-	}
+int hashfunc(int value) {
 	
-	else
-	{
-		func(mid+1, right );
-	}
-
+	return value % MAX_TABLE;
 
 }
 
 
-int main()
+
+int main(void)
 {
-	int N;
-	cin >> N;
-	for (int i = 0; i < N; i++)
-	{
-		scanf("%d", &A[i]);
-	}
+	scanf("%d", &N);
 
-	int M;
-	cin >> M;
+	for (int i = 0; i < N; i++) {
+		int temp;
+		NODE* nd = &pool[pcnt];
+		pcnt++;
 
-	for (int i = 0; i < M; i++)
-	{
-		scanf("%d", &B[i]);
-		//cout << B[i] << endl;
-	}
-	sort(A,A+N);
-	for (int i = 0; i < M; i++)
-	{
-		state = 0;
-		target = B[i];
+		scanf("%d", &temp);
+		int h;
+		if (temp < 0) {
+			h = hashfunc(-temp);
+		}
+		else {
+			h = hashfunc(temp);
+		}
+		nd->value = temp;
 		
-		func(0, N-1);
-		if (state == 0) printf("0\n");
+		nd->next = HEAD[h].next;
+		HEAD[h].next = nd;
+		
 	}
+
+	scanf("%d", &M);
+
+	for (int i = 0; i < M; i++) {
+		int temp;
+		scanf("%d", &temp);
+		int h;
+
+		if (temp < 0) {
+			h = hashfunc(-temp);
+		}
+		else {
+			h = hashfunc(temp);
+		}
+
+		NODE* nd = HEAD[h].next;
+		int state = 0;
+		while (nd) {
+
+			
+			if (nd->value == temp) {
+				printf("1\n");
+				state = 1;
+				break;
+			}
+
+
+			nd = nd->next;
+
+		}
+		if (state == 0) {
+			printf("0\n");
+		}
+
+	}
+
+
+
 }
